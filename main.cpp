@@ -31,16 +31,55 @@ Wrapper create()
   return wrapper;
 }
 
-void func()
+class WrapperWithCopy
+{
+public:
+	WrapperWithCopy(const char* filename)
+	{
+		value = new Json::Value();
+
+		std::ifstream is(filename);
+
+		Json::Reader reader;
+		reader.parse(is, *value);
+
+		is.close();
+	}
+	WrapperWithCopy(const WrapperWithCopy& copy)
+	{
+		value = new Json::Value(*copy.value);
+	}
+
+	~WrapperWithCopy() { delete value; }
+
+private:
+	Json::Value* value;
+
+};
+
+WrapperWithCopy createWithCopy()
+{
+	WrapperWithCopy wrapper("../init_response.txt");
+	return wrapper;
+}
+
+void func0()
+{
+	WrapperWithCopy wrapper = createWithCopy();
+	std::cout << "Exiting func0()." << std::endl;
+}
+
+void func1()
 {
   Wrapper wrapper = create();
-  std::cout << "Exiting func()." << std::endl;
+  std::cout << "Exiting func1()." << std::endl;
 }
 
 int main()
 {
   std::cout << "Start." << std::endl;
-  func();
+  func0();
+  func1();
   std::cout << "End." << std::endl;
 
 //  std::cout << "JSON contents..." << std::endl;
