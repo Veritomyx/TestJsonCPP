@@ -232,6 +232,7 @@ static inline void fixNumericLocaleInput(char* begin, char* end) {
 #include <cassert>
 #include <cstring>
 #include <istream>
+#include <iostream>
 #include <sstream>
 #include <memory>
 #include <set>
@@ -2931,6 +2932,7 @@ Value::Value(Value&& other) {
 #endif
 
 Value::~Value() {
+	std::cout << "Entering ~Value() with type: " << type_ << std::endl;
   switch (type_) {
   case nullValue:
   case intValue:
